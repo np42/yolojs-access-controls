@@ -1,0 +1,69 @@
+Organization: [Space, Client] (e.g. YoloJS, ABAC, Frontend)
+User: [Identity] (e.g. <UUID>, test@wivora.fr)
+Role: [] (e.g. Premium)
+Scope: [Attribute] (e.g. resource-001, read)
+Permission: [] (e.g. { YoloJS, test@wivora.fr, Premium, { resource-01, read })
+Constraint: (e.g. { FR, 12:59, Mobile })
+
+
+--- old
+StructTypes:
+
+  Space:
+    Name
+
+  Client:
+    Space: Reference
+    AuthenticationMethods: client_credentials, authorization_code, refresh_token, endpoint_credentials
+
+  Identity:
+    Client: Reference
+    IdentityGroup: Name
+    Type
+    Key
+    Secret: String
+    Index: String
+    Permissions: List<Permission>
+
+  Permission:
+    Mode: allow, disallow
+    Access
+    Path
+    Values: List<Value>
+
+  Access:
+    Name
+    Rights: List<Right>
+    DynamicChecks: List<DynamicCheck>
+
+  Right:
+    Arn: String
+    Actions: List<String>
+
+  DynamicCheck:
+    MethodName: date, ip, ...
+    Data: Value
+
+Services:
+  Back:
+    Public
+      - /space/{add,remove,rename}
+      - /space/<space>/client/{add,remove,rename}
+      - /space/<space>/identity/{add,remove,rename}
+      - /space/<space>/identity/<identity>/group/{add,remove}
+      - /space/<space>/identity/<identity>/group/<group>/factor/{add,remove}
+      - /space/<space>/group/{add,remove,rename}
+      - /space/<space>/group/<group>/scope/{add,remove}
+    Protected
+      - renewIdentityCache
+  Front:
+    Public
+      - getToken
+      - refreshToken
+      - hasAccess
+
+Storage:
+  Private:
+    MySQL
+  Protected:
+    Redis

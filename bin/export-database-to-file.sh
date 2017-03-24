@@ -1,7 +1,7 @@
 #!/bin/sh
 
 THIS=$(dirname "$0")
-BACKUP="$THIS/../backup"
+RESOURCES="$THIS/../resources"
 PACKAGE="$THIS/../package.json"
 
 if [ -z "$(which jq)" ]; then version="$(date +%s)"
@@ -11,4 +11,4 @@ fi
 echo -n 'Host: ' && read host
 echo -n 'User: ' && read user
 
-mysqldump --add-drop-table -u"$user" -h"$host" -p yolojs-access-controls > "$BACKUP/access-controls-$version.sql"
+mysqldump --add-drop-table -u"$user" -h"$host" -p yolojs-access-controls > "$RESOURCES/access-controls-$version.sql"
