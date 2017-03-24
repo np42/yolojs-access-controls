@@ -1,0 +1,26 @@
+{ "Instances":
+  { "DB.SQL": "Adapter.Knex"
+  , "Backend.Api": "Router"
+  , "Backend.Api.Http": "Adapter.Http.Server"
+  , "Backend.Api.Http.CORS": "Adapter.Http.CORS"
+  , "Frontend.Api": "Router"
+  , "Frontend.Api.Http": "Adapter.Http.Server"
+  , "Frontend.Api.Http.CORS": "Adapter.Http.CORS"
+  , "Model": "Model"
+  }
+, "Data":
+  { "DB.SQL": { "ac": { "client": "mysql"
+                      , "connection": { "user": null, "password": null
+                                      , "database": "yolojs-access-controls"
+                                      }
+                      , "pool": { "min": 0, "max": 3 }
+                      , "acquireConnectionTimeout": 90000
+                      }
+              }
+  , "Model.*": { "mysql": { "fqn": "DB.SQL", "name": "ac" } }
+  , "Backend.Api": { "routes": [ "config/back-v1.6100.map" ] }
+  , "Backend.Api.Http": { "ip": "127.0.0.1" }
+  , "Frontend.Api": { "routes": [ "config/front-v1.6000.map" ] }
+  , "Frontend.Api.Http": { "ip": "0.0.0.0" }
+  }
+}

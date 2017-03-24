@@ -24,9 +24,10 @@ DROP TABLE IF EXISTS `organizations`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `organizations` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(64) COLLATE utf8_bin NOT NULL,
+  `key` varchar(64) COLLATE utf8_bin NOT NULL,
   `alert.email` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `key` (`key`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -36,62 +37,8 @@ CREATE TABLE `organizations` (
 
 LOCK TABLES `organizations` WRITE;
 /*!40000 ALTER TABLE `organizations` DISABLE KEYS */;
-INSERT INTO `organizations` VALUES (1,'Test','');
+INSERT INTO `organizations` VALUES (1,'test',NULL);
 /*!40000 ALTER TABLE `organizations` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `organizations.spaces`
---
-
-DROP TABLE IF EXISTS `organizations.spaces`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `organizations.spaces` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `this` int(10) unsigned NOT NULL,
-  `name` varchar(64) COLLATE utf8_bin NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `organization` (`this`),
-  CONSTRAINT `organizations.spaces_ibfk_1` FOREIGN KEY (`this`) REFERENCES `organizations` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `organizations.spaces`
---
-
-LOCK TABLES `organizations.spaces` WRITE;
-/*!40000 ALTER TABLE `organizations.spaces` DISABLE KEYS */;
-INSERT INTO `organizations.spaces` VALUES (1,1,'Project 1');
-/*!40000 ALTER TABLE `organizations.spaces` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `organizations.spaces.clients`
---
-
-DROP TABLE IF EXISTS `organizations.spaces.clients`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `organizations.spaces.clients` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `this` int(10) unsigned NOT NULL,
-  `name` varchar(64) COLLATE utf8_bin NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `space` (`this`),
-  CONSTRAINT `organizations.spaces.clients_ibfk_1` FOREIGN KEY (`this`) REFERENCES `organizations.spaces` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `organizations.spaces.clients`
---
-
-LOCK TABLES `organizations.spaces.clients` WRITE;
-/*!40000 ALTER TABLE `organizations.spaces.clients` DISABLE KEYS */;
-INSERT INTO `organizations.spaces.clients` VALUES (1,1,'API');
-/*!40000 ALTER TABLE `organizations.spaces.clients` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -141,8 +88,8 @@ CREATE TABLE `roles` (
   KEY `space` (`space`),
   KEY `client` (`client`),
   CONSTRAINT `roles_ibfk_1` FOREIGN KEY (`organization`) REFERENCES `organizations` (`id`),
-  CONSTRAINT `roles_ibfk_2` FOREIGN KEY (`space`) REFERENCES `organizations.spaces` (`id`),
-  CONSTRAINT `roles_ibfk_3` FOREIGN KEY (`client`) REFERENCES `organizations.spaces.clients` (`id`)
+  CONSTRAINT `roles_ibfk_2` FOREIGN KEY (`space`) REFERENCES `spaces` (`id`),
+  CONSTRAINT `roles_ibfk_3` FOREIGN KEY (`client`) REFERENCES `spaces.clients` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -237,8 +184,8 @@ CREATE TABLE `rules` (
   KEY `role` (`role`),
   KEY `right` (`permission`),
   CONSTRAINT `rules_ibfk_1` FOREIGN KEY (`organization`) REFERENCES `organizations` (`id`),
-  CONSTRAINT `rules_ibfk_2` FOREIGN KEY (`space`) REFERENCES `organizations.spaces` (`id`),
-  CONSTRAINT `rules_ibfk_3` FOREIGN KEY (`client`) REFERENCES `organizations.spaces.clients` (`id`),
+  CONSTRAINT `rules_ibfk_2` FOREIGN KEY (`space`) REFERENCES `spaces` (`id`),
+  CONSTRAINT `rules_ibfk_3` FOREIGN KEY (`client`) REFERENCES `spaces.clients` (`id`),
   CONSTRAINT `rules_ibfk_4` FOREIGN KEY (`user`) REFERENCES `users` (`id`),
   CONSTRAINT `rules_ibfk_5` FOREIGN KEY (`identity`) REFERENCES `users.identities` (`id`),
   CONSTRAINT `rules_ibfk_6` FOREIGN KEY (`role`) REFERENCES `roles` (`id`),
@@ -308,6 +255,60 @@ LOCK TABLES `rules.actions` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `spaces`
+--
+
+DROP TABLE IF EXISTS `spaces`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `spaces` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `organization` int(10) unsigned NOT NULL,
+  `name` varchar(64) COLLATE utf8_bin NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `organization` (`organization`),
+  CONSTRAINT `spaces_ibfk_1` FOREIGN KEY (`organization`) REFERENCES `organizations` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `spaces`
+--
+
+LOCK TABLES `spaces` WRITE;
+/*!40000 ALTER TABLE `spaces` DISABLE KEYS */;
+INSERT INTO `spaces` VALUES (1,1,'Project 1');
+/*!40000 ALTER TABLE `spaces` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `spaces.clients`
+--
+
+DROP TABLE IF EXISTS `spaces.clients`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `spaces.clients` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `this` int(10) unsigned NOT NULL,
+  `name` varchar(64) COLLATE utf8_bin NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `space` (`this`),
+  CONSTRAINT `spaces.clients_ibfk_1` FOREIGN KEY (`this`) REFERENCES `spaces` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `spaces.clients`
+--
+
+LOCK TABLES `spaces.clients` WRITE;
+/*!40000 ALTER TABLE `spaces.clients` DISABLE KEYS */;
+INSERT INTO `spaces.clients` VALUES (1,1,'API');
+/*!40000 ALTER TABLE `spaces.clients` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `users`
 --
 
@@ -316,11 +317,14 @@ DROP TABLE IF EXISTS `users`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `users` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `organization.space` int(10) unsigned NOT NULL,
+  `organization` int(10) unsigned NOT NULL,
+  `space` int(10) unsigned NOT NULL,
   `identifier` varchar(64) COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `space` (`organization.space`),
-  CONSTRAINT `users_ibfk_2` FOREIGN KEY (`organization.space`) REFERENCES `organizations.spaces` (`id`)
+  KEY `space` (`space`),
+  KEY `organization` (`organization`),
+  CONSTRAINT `users_ibfk_2` FOREIGN KEY (`space`) REFERENCES `spaces` (`id`),
+  CONSTRAINT `users_ibfk_3` FOREIGN KEY (`organization`) REFERENCES `organizations` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -330,7 +334,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,1,'eb283372-1105-40d5-8bd2-f02309512e5a');
+INSERT INTO `users` VALUES (1,1,1,'eb283372-1105-40d5-8bd2-f02309512e5a');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -407,7 +411,7 @@ CREATE TABLE `users.sessions` (
   KEY `this` (`this`),
   KEY `client` (`client`),
   CONSTRAINT `users.sessions_ibfk_1` FOREIGN KEY (`this`) REFERENCES `users` (`id`),
-  CONSTRAINT `users.sessions_ibfk_2` FOREIGN KEY (`client`) REFERENCES `organizations.spaces.clients` (`id`)
+  CONSTRAINT `users.sessions_ibfk_2` FOREIGN KEY (`client`) REFERENCES `spaces.clients` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -430,4 +434,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-03-24 12:00:19
+-- Dump completed on 2017-03-24 15:25:07

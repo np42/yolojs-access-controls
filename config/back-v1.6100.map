@@ -1,0 +1,70 @@
+Http  GET     /v1/organization      Model.Organization:http-read
+Http  PUT     /v1/organization      Model.Organization:http-create
+Http  POST    /v1/organization/:id  Model.Organization:http-update
+Http  DELETE  /v1/organization/:id  Model.Organization:http-delete
+
+Http  GET     /v1/space      Model.Space:http-read
+Http  PUT     /v1/space      Model.Space:http-create
+Http  POST    /v1/space/:id  Model.Space:http-update
+Http  DELETE  /v1/space/:id  Model.Space:http-delete
+
+Http  GET     /v1/space/:id/client       Model.SpaceClient:http-read
+Http  PUT     /v1/space/:id/client       Model.SpaceClient:http-create
+Http  POST    /v1/space/:id/client/:cid  Model.SpaceClient:http-update
+Http  DELETE  /v1/space/:id/client/:cid  Model.SpaceClient:http-delete
+
+Http  GET     /v1/user      Model.User:http-read
+Http  PUT     /v1/user      Model.User:http-create
+Http  POST    /v1/user/:id  Model.User:http-update
+Http  DELETE  /v1/user/:id  Model.User:http-delete
+
+Http  GET     /v1/user/:id/identity       Model.UserIdentity:http-read
+Http  PUT     /v1/user/:id/identity       Model.UserIdentity:http-create
+Http  POST    /v1/user/:id/identity/:iid  Model.UserIdentity:http-update
+Http  DELETE  /v1/user/:id/identity/:iid  Model.UserIdentity:http-delete
+
+Http  GET     /v1/user/:id/role       Model.UserRole:http-read
+Http  PUT     /v1/user/:id/role       Model.UserRole:http-create
+Http  POST    /v1/user/:id/role/:rid  Model.UserRole:http-update
+Http  DELETE  /v1/user/:id/role/:rid  Model.UserRole:http-delete
+
+Http  GET     /v1/user/:id/session       Model.UserSession:http-read
+Http  PUT     /v1/user/:id/session       Model.UserSession:http-create
+Http  POST    /v1/user/:id/session/:sid  Model.UserSession:http-update
+Http  DELETE  /v1/user/:id/session/:sid  Model.UserSession:http-delete
+
+Http  GET     /v1/role      Model.Role:http-read
+Http  PUT     /v1/role      Model.Role:http-create
+Http  POST    /v1/role/:id  Model.Role:http-update
+Http  DELETE  /v1/role/:id  Model.Role:http-delete
+
+Http  GET     /v1/role/:id/role       Model.RoleRole:http-read
+Http  PUT     /v1/role/:id/role       Model.RoleRole:http-create
+Http  POST    /v1/role/:id/role/:rid  Model.RoleRole:http-update
+Http  DELETE  /v1/role/:id/role/:rid  Model.RoleRole:http-delete
+
+Http  GET     /v1/role/:id/permission       Model.RolePermission:http-read
+Http  PUT     /v1/role/:id/permission       Model.RolePermission:http-create
+Http  POST    /v1/role/:id/permission/:pid  Model.RolePermission:http-update
+Http  DELETE  /v1/role/:id/permission/:pid  Model.RolePermission:http-delete
+
+Http  GET     /v1/permission      Model.Permission:http-read
+Http  PUT     /v1/permission      Model.Permission:http-create
+Http  POST    /v1/permission/:id  Model.Permission:http-update
+Http  DELETE  /v1/permission/:id  Model.Permission:http-delete
+
+Http  GET     /v1/rule      Model.Rule:http-read
+Http  PUT     /v1/rule      Model.Rule:http-create
+Http  POST    /v1/rule/:id  Model.Rule:http-update
+Http  DELETE  /v1/rule/:id  Model.Rule:http-delete
+
+Http  GET     /v1/rule/:id/action       Model.RuleAction:http-read
+Http  PUT     /v1/rule/:id/action       Model.RuleAction:http-create
+Http  POST    /v1/rule/:id/action/:aid  Model.RuleAction:http-update
+Http  DELETE  /v1/rule/:id/action/:aid  Model.RuleAction:http-delete
+
+
+
+
+
+

@@ -6,6 +6,30 @@ Permission: [] (e.g. { YoloJS, test@wivora.fr, Premium, { resource-01, read })
 Constraint: (e.g. { FR, 12:59, Mobile })
 
 
+==== BACK
+
+CRUD /organization
+
+CRUD /space
+CRUD /space/<id>/client
+
+CRUD /user
+CRUD /user/<id>/identity
+CRUD /user/<id>/role
+CRUD /user/<id>/session
+
+CRUD /role
+CRUD /role/<id>/role
+CRUD /role/<id>/permission
+
+CRUD /permission
+
+CRUD /rule
+CRUD /rule/<id>/action
+
+==== FRONT
+
+
 --- old
 StructTypes:
 

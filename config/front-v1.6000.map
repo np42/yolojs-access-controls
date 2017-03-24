@@ -1,0 +1,2 @@
+Http POST /v1/oauth2/authenticate  API.OAuth2:http-authenticate
+Http POST /v1/oauth2/check         API.OAuth2:http-check
