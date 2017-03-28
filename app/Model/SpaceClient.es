@@ -3,12 +3,10 @@ export default function (node, logger) {
   node.kind('Record');
 
   node.inherit('Record.MySQL');
-  node.set('mysql.table', 'organizations');
+  node.set('mysql.table', 'spaces.clients');
 
-  node.identity('key', ['key']);
-
-  node.field('key', 'Model.Key', true);
-  node.field('alert.email', 'Model.Email');
+  node.field('organization', 'Model.Organization', true);
+  node.field('name', 'Primitive.String');
 
   node.on('http-read')
     .then(':fetch-all', { '*': null })
@@ -16,11 +14,8 @@ export default function (node, logger) {
     .end();
 
   node.on('http-create')
-    .trap( 'jp:error.code == `ER_DUP_ENTRY`'
-         , { type: 'json', data: { message: 'Organization already exists' }, code: 400 }
-         )
     .then(':set', { data: '$:body' })
-    .as({ type: 'json', data: { id: '$:id', key: '$:key' } })
+    .as({ type: 'json', data: { id: '$:id', name: '$:name' } })
     .end();
 
   node.on('http-update')
