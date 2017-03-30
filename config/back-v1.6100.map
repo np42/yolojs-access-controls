@@ -3,6 +3,11 @@ Http  PUT     /v1/organization      Model.Organization:http-create
 Http  POST    /v1/organization/:id  Model.Organization:http-update
 Http  DELETE  /v1/organization/:id  Model.Organization:http-delete
 
+Http  GET     /v1/environment      Model.Environment:http-read
+Http  PUT     /v1/environment      Model.Environment:http-create
+Http  POST    /v1/environment/:id  Model.Environment:http-update
+Http  DELETE  /v1/environment/:id  Model.Environment:http-delete
+
 Http  GET     /v1/space      Model.Space:http-read
 Http  PUT     /v1/space      Model.Space:http-create
 Http  POST    /v1/space/:id  Model.Space:http-update
